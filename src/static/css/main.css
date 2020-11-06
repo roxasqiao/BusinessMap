@@ -1,0 +1,19 @@
+#title{
+	text-align: center;
+	font-family:"微软雅黑";
+	font-size: 25px;
+}
+
+#div1{
+    float: left;
+}
+#div2 {
+  
+}
+#div3 {
+    float: right;
+}
+
+label.BMapLabel {
+    max-width: initial !important;
+}

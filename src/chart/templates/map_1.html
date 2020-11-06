@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <style type="text/css">
+  body, html,
+  #allmap {width: 90%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";float: left;}
+
+  </style>
+<link rel="stylesheet" type="text/css" href="../../static/css/main.css">
+<script type="text/javascript" src="http://api.map.baidu.com/api?&v=2.0&ak=U65KBVRGIaGX805HUYvWhAVX6AMwzgX4"></script>
+
+  <title>地图展示</title>
+</head>
+<body>
+  <h1 id="title">竞品商家位置分布</h1>
+  <div id="allmap"></div>
+
+<form action="" method="get"> 
+选择竞品商家<br /><br /> 
+<label><input name="Fruit" type="checkbox" value="" />绝味鸭脖 </label> 
+<label><input name="Fruit" type="checkbox" value="" />良品铺子 </label> 
+</form> 
+  </body>
+</html>
+
+
+
+
+<script type="text/javascript"> src="./js/echarts.min.js"</script>
+{% csrf_token %}<!--防止伪装提交请求的功能-->
+<script>
+// 百度地图API功能
+var map = new BMap.Map("allmap");                       // 创建Map实例
+map.centerAndZoom(new BMap.Point(114.299621,30.607512), 6);  // 初始化地图,设置中心点坐标和地图级别
+var size = new BMap.Size(10, 20);
+//添加地图类型控件
+map.addControl(new BMap.CityListControl({
+    anchor: BMAP_ANCHOR_TOP_LEFT,
+    offset: size,
+    // 切换城市之前事件
+    // onChangeBefore: function(){
+    //    alert('before');
+    // },
+    // 切换城市之后事件
+    // onChangeAfter:function(){
+    //   alert('after');
+    // }
+}));
+map.setCurrentCity("武汉");          // 设置地图显示的城市 此项是必须设置的
+map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+setTimeout(function(){
+            map.setZoom(13);   
+        }, 1000);                    //1秒后放大到12级
+
+
+//数组
+var markerArr ={{addresslist|safe}};
+
+//描点
+var point = [];
+var maker = [];
+var label = [];
+for (var i = 0; i < markerArr.length; i++) {
+    var p0 = markerArr[i].lng;
+    var p1 = markerArr[i].lat;
+    var l0 = markerArr[i].title;
+    point[i] = new BMap.Point(p0,p1);
+    maker[i] = new BMap.Marker(point[i]); 
+    map.addOverlay(maker[i]);
+//加标签
+    label[i] = new BMap.Label(l0,{offset:new BMap.Size(20,-10)});
+    maker[i].setLabel(label[i]);
+    //maker[i].setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+}
+</script>
+
