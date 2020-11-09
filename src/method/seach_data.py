@@ -45,8 +45,11 @@ def OrgData(sdata):
         title = sdata[i][3]
         lat = sdata[i][8]
         lng = sdata[i][9]
+        province = sdata[i][4]
+        city = sdata[i][5]
+        area = sdata[i][6]
         address=sdata[i][7]
-        finalData={'title':title,'lat':lat,'lng':lng,'address':address}
+        finalData={'title':title,'lat':lat,'lng':lng,'province':province,'city':city,'area':area,'address':address}
         finalDataList.append(finalData)
     #print(finalDataList)
     return finalDataList
